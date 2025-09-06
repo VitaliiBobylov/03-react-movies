@@ -1,14 +1,13 @@
 import axios from "axios";
+import type { Movie } from "../types/movie";
 
-export type Movie = {
-  id: number;
-  title: string;
-  poster_path: string | null;
-  backdrop_path: string | null;
-  overview: string;
-  release_date: string;
-  vote_average: number;
-};
+interface tmdbRespons {
+  results: Movie[];
+
+  page: number;
+  total_results: number;
+  total_pages: number;
+}
 
 const axiosInstance = axios.create({
   baseURL: "https://api.themoviedb.org/3",
@@ -19,7 +18,7 @@ const axiosInstance = axios.create({
 
 export async function fetchMovies(query: string): Promise<Movie[]> {
   try {
-    const response = await axiosInstance.get(
+    const response = await axiosInstance.get<tmdbRespons>(
       "https://api.themoviedb.org/3/search/movie",
       {
         params: {
