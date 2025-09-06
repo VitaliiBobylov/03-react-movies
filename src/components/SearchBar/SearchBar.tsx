@@ -30,33 +30,29 @@ export default function SearchBar({ onSubmit }: SearchBarProps) {
   };
 
   return (
-
-
     <header className={styles.header}>
-
-
       <div className={styles.container}>
-        <a className={styles.link}
+        <a
+          className={styles.link}
           href="https://www.themoviedb.org/"
           target="_blank"
-          rel="noopener noreferrer"
+          rel="no photo"
         >
           Powered by TMDB
-        </a><form onSubmit={handleSubmit} className={styles.form}>
+        </a>
+        <form onSubmit={handleSubmit} className={styles.form}>
           <input
-
-
             className={styles.input}
             type="text"
             name="query"
             autoComplete="off"
             placeholder="Search movies..."
-            autoFocus/>
-
+            autoFocus
+          />
 
           <button className={styles.button} type="submit">
-            Search</button>
-            
+            Search
+          </button>
         </form>
       </div>
     </header>

@@ -1,30 +1,36 @@
+import axios from "axios";
+
 export type Movie = {
   id: number;
   title: string;
   poster_path: string | null;
+  backdrop_path: string | null;
   overview: string;
   release_date: string;
   vote_average: number;
-  backdrop_path: string | null;
 };
 
+const axiosInstance = axios.create({
+  baseURL: "https://api.themoviedb.org/3",
+  headers: {
+    Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`,
+  },
+});
+
 export async function fetchMovies(query: string): Promise<Movie[]> {
+  try {
+    const response = await axiosInstance.get(
+      "https://api.themoviedb.org/3/search/movie",
+      {
+        params: {
+          query,
+        },
+      }
+    );
 
-  const response = await fetch(
-
-    `https://api.themoviedb.org/3/search/movie?api_key=${
-
-      import.meta.env.VITE_TMDB_API_KEY
-
-    }&query=${encodeURIComponent(query)}&language=en-US`
-  );
-
-  if (!response.ok) {
-
+    return response.data.results as Movie[];
+  } catch (error) {
+    console.error("Failed to fetch movies:", error);
     throw new Error("Failed to fetch movies");
-    
   }
-
-  const data = await response.json();
-  return data.results as Movie[];
 }
